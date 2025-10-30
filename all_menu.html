@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Menus</title>
+    <style>
+        h2 { color: darkblue; }
+        .hotel-menu { border: 1px solid #ccc; margin: 20px; padding: 15px; }
+        .menu-item { margin-left: 20px; }
+    </style>
+</head>
+<body>
+    <h1>All Hotel Menus</h1>
+
+   {% for hotel, items in hotel_menus.items() %}
+    <div class="hotel-menu">
+       <h2>{{ hotel|upper }}</h2>
+          {% for item in items %}
+        <div class="menu-item">
+            <img src="{{ url_for('static', filename='images/' ~ item.image) }}" alt="{{ item.name }}" width="100" height="100">
+            <p><strong>{{ item.name }}</strong> - ₹{{ item.price }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</body>
+</html>

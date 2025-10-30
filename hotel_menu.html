@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block title %}{{ hotel_name | capitalize }} Hotel Menu{% endblock %}
+
+{% block head %}
+<style>
+  h1, h2 { text-align: center; }
+  h1 { text-transform: uppercase; }
+  table { width: 95%; max-width: 1000px; border-collapse: collapse; margin: 20px auto; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  th, td { border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle; }
+  th { background-color: #f2f2f2; font-weight: bold; }
+  img { width: 120px; height: 100px; object-fit: cover; border-radius: 5px; }
+  button { padding: 8px 12px; margin: 0 4px; cursor: pointer; border-radius: 4px; border: 1px solid #ccc; background-color: #f0f0f0; transition: background-color 0.2s; }
+  button:hover { background-color: #ddd; }
+  .quantity-display { font-weight: bold; font-size: 1.1em; min-width: 20px; display: inline-block; }
+  footer { text-align: center; margin-top: 30px; padding-bottom: 30px; }
+  footer button {
+    background-color: #007bff; color: white; border: none; padding: 15px 25px;
+    font-size: 18px; border-radius: 5px; cursor: pointer;
+  }
+  footer button:hover { background-color: #0056b3; }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>{{ hotel_name }} Hotel</h1>
+<h2>Menu</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Product</th>
+      <th>Image</th>
+      <th>Price (₹)</th>
+      <th>Quantity</th>
+      <th>In Cart</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in items %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ item.name }}</td>
+      <td><img src="{{ url_for('static', filename='images/' + item.image) }}"></td>
+      <td>{{ "%.2f"|format(item.price) }}</td>
+      <td>
+        <button type="button" onclick="selectProduct('{{ item.name }}', {{ item.price }})">+</button>
+        <button type="button" onclick="cancelProduct('{{ item.name }}')">-</button>
+      </td>
+      <td class="quantity-display" id="qty-{{ item.name | replace(' ', '-') }}">{{ 0 }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<footer>
+  <button type="button" onclick="orderSelectedProducts()">ORDER SELECTED PRODUCTS</button>
+</footer>
+
+<script>
+  // Object to store the cart: { 'productName': { quantity: X, price: Y } }
+  const cart = {};
+
+  function selectProduct(name, price) {
+    if (!cart[name]) {
+      cart[name] = { quantity: 1, price: price };
+    } else {
+      cart[name].quantity++;
+    }
+    updateQuantityDisplay(name);
+  }
+
+  function cancelProduct(name) {
+    if (cart[name]) {
+      cart[name].quantity--;
+      if (cart[name].quantity <= 0) {
+        delete cart[name];
+      }
+    }
+    updateQuantityDisplay(name);
+  }
+
+  function updateQuantityDisplay(name) {
+    const safeNameId = name.replace(/ /g, '-');
+    const qtyElem = document.getElementById(`qty-${safeNameId}`);
+    if (qtyElem) {
+        if (cart[name]) {
+            qtyElem.textContent = cart[name].quantity;
+        } else {
+            qtyElem.textContent = 0;
+        }
+    }
+  }
+
+  function orderSelectedProducts() {
+    if (Object.keys(cart).length === 0) {
+      alert('Please select at least one product to order.');
+      return;
+    }
+
+    let items = [];
+    let total = 0;
+
+    for (const [name, data] of Object.entries(cart)) {
+       items.push(`${name} x ${data.quantity}`);
+       total += data.price * data.quantity;
+    }
+
+    // Use URLSearchParams for a clean and safe way to build the query string
+    const params = new URLSearchParams();
+    params.append('total', total.toFixed(2));
+    items.forEach(item => params.append('items', item));
+
+    // Redirect to the Flask address form route with the cart data in the URL
+    window.location.href = `/address_form?${params.toString()}`;
+  }
+</script>
+{% endblock %}

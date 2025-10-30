@@ -1,0 +1,35 @@
+from flask import Flask, render_template, request, redirect, url_for
+
+app = Flask(__name__)
+
+# Sample user data (replace with your own)
+users = {
+    "user1": "password123",
+    "user2": "mypassword",
+}
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        # Access form data
+        username = request.form['username']  # 'username' is the name attribute in the form
+        password = request.form['password']  # 'password' is the name attribute in the form
+        
+        # Debugging: Print the received form data
+        print(f"Username: {username}, Password: {password}")
+        
+        # Validate credentials
+        if username in users and users[username] == password:
+            return redirect(url_for('home'))  # Redirect to home page
+        else:
+            error = "Invalid credentials"
+            return render_template('login.html', error=error)  # Show error message
+
+    return render_template('login.html')
+
+@app.route('/home')
+def home():
+    return "Welcome to the home page!"
+
+if __name__ == "__main__":
+    app.run(debug=True)

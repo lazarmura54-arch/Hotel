@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Address Form{% endblock %}
+
+{% block head %}
+<style>
+    .form-container {
+        background: #ffffff;
+        padding: 30px;
+        max-width: 500px;
+        margin: 20px auto;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h2 { text-align: center; margin-bottom: 20px; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input[type="text"], textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    input[readonly], textarea[readonly] {
+        background-color: #f9f9f9;
+        color: #555;
+    }
+    input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        padding: 12px;
+        margin-top: 20px;
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Enter Delivery Details</h2>
+    <form action="{{ url_for('address_form') }}" method="POST">
+        <label for="fname">Full Name:</label>
+        <input type="text" id="fname" name="fname" required>
+
+        <label for="mobile">Mobile Number:</label>
+        <input type="text" id="mobile" name="mobile" required>
+
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" required rows="3"></textarea>
+
+        <label for="items">Items:</label>
+        <textarea id="items" name="items" readonly rows="4">{{ items | join('\n') }}</textarea>
+
+        <label for="total">Total:</label>
+        <input type="text" id="total" name="total" value="{{ "%.2f"|format(total|float) }}" readonly>
+
+        <input type="submit" value="Submit Order">
+    </form>
+</div>
+{% endblock %}

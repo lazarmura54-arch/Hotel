@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NANI HOTEL Food Order</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+    }
+    header {
+      background-color: plum;
+      padding: 10px;
+      text-align: center;
+      color: black;
+    }
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      text-align: center;
+      background-color: #333;
+      margin: 0;
+    }
+    nav ul li {
+      display: inline;
+      margin-right: 10px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      padding: 10px 20px;
+      display: inline-block;
+    }
+    nav ul li a:hover {
+      background-color: #555;
+    }
+    .menu-table {
+      background-color: tan;
+      border: 1px solid black;
+      border-collapse: collapse;
+      width: 80%;
+      margin: 20px auto;
+    }
+    .menu-table th, .menu-table td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #000;
+    }
+    .menu-table img {
+      max-width: 100%;
+      height: auto;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff4500;
+      color: white;
+    }
+    .search-container {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .search-container input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      width: 300px;
+    }
+    .search-container button {
+      padding: 10px;
+      font-size: 16px;
+      background-color: #ff4500;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .search-container button:hover {
+      background-color: #e5005a;
+    }
+    footer {
+      background-color: pink;
+      padding: 10px;
+      text-align: center;
+      color: black;
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <img src="nani.jpg" alt="NANI HOTEL" width="500" height="333">
+  <h1>NANI HOTEL</h1>
+  <div class="search-container">
+    <input type="text" placeholder="Search" id="searchInput">
+    <button type="button" onclick="searchProducts()">Search</button>
+  </div>
+</header>
+
+<nav class="navbar">
+  <ul>
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="{{ url_for('contact_us') }}">Contact</a></li>
+  </ul>
+</nav>
+
+<h2 style="text-align:center">MENU TABLE</h2>
+<table class="menu-table">
+  <thead>
+    <tr>
+      <th>S.NO</th>
+      <th>PRODUCT NAME</th>
+      <th>IMAGE</th>
+      <th>PRODUCT PRICE</th>
+      <th>SELECT THE PRODUCT</th>
+    </tr>
+  </thead>
+  <tbody id="menuTableBody">
+    <tr>
+      <td>1</td>
+      <td>Chicken Biriyani</td>
+      <td><img src="chicken1.jpeg" alt="Chicken Biriyani"></td>
+      <td>$180</td>
+      <td>
+        <button type="button" onclick="selectProduct('Chicken Biriyani', 180)" aria-label="Add Chicken Biriyani">+</button>
+        <button type="button" onclick="cancelProduct('Chicken Biriyani')" aria-label="Remove Chicken Biriyani">-</button>
+      </td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Egg Biriyani</td>
+      <td><img src="egg1.jpeg" alt="Egg Biriyani"></td>
+      <td>$190</td>
+      <td>
+        <button type="button" onclick="selectProduct('Egg Biriyani', 190)" aria-label="Add Egg Biriyani">+</button>
+        <button type="button" onclick="cancelProduct('Egg Biriyani')" aria-label="Remove Egg Biriyani">-</button>
+      </td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Mutton Biriyani</td>
+      <td><img src="mutton1.jpeg" alt="Mutton Biriyani"></td>
+      <td>$260</td>
+      <td>
+        <button type="button" onclick="selectProduct('Mutton Biriyani', 260)" aria-label="Add Mutton Biriyani">+</button>
+        <button type="button" onclick="cancelProduct('Mutton Biriyani')" aria-label="Remove Mutton Biriyani">-</button>
+      </td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Veg Meals</td>
+      <td><img src="meals1.jpeg" alt="Veg Meals"></td>
+      <td>$90</td>
+      <td>
+        <button type="button" onclick="selectProduct('Veg Meals', 90)" aria-label="Add Veg Meals">+</button>
+        <button type="button" onclick="cancelProduct('Veg Meals')" aria-label="Remove Veg Meals">-</button>
+      </td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Curd Rice</td>
+      <td><img src="Curd rice1.jpeg" alt="Curd Rice"></td>
+      <td>$50</td>
+      <td>
+        <button type="button" onclick="selectProduct('Curd Rice', 50)" aria-label="Add Curd Rice">+</button>
+        <button type="button" onclick="cancelProduct('Curd Rice')" aria-label="Remove Curd Rice">-</button>
+      </td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Fish Biriyani</td>
+      <td><img src="Fish1.jpeg" alt="Fish Biriyani"></td>
+      <td>$150</td>
+      <td>
+        <button type="button" onclick="selectProduct('Fish Biriyani', 150)" aria-label="Add Fish Biriyani">+</button>
+        <button type="button" onclick="cancelProduct('Fish Biriyani')" aria-label="Remove Fish Biriyani">-</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<footer>
+  <button type="button" onclick="orderSelectedProducts()">ORDER THE SELECTED PRODUCTS</button>
+</footer>
+
+<script>
+  let selectedProducts = [];
+
+  function selectProduct(productName, productPrice) {
+    selectedProducts.push({ name: productName, price: productPrice });
+    alert(productName + ' has been added to your order.');
+  }
+
+  function cancelProduct(productName) {
+    selectedProducts = selectedProducts.filter(product => product.name !== productName);
+    alert(productName + ' has been removed from your order.');
+  }
+
+  function orderSelectedProducts() {
+    if (selectedProducts.length === 0) {
+      alert('No products selected.');
+    } else {
+      let orderDetails = 'You have ordered:\n';
+      let totalAmount = 0;
+
+      selectedProducts.forEach(product => {
+        orderDetails += product.name + ' - $' + product.price + '\n';
+        totalAmount += product.price;
+      });
+
+      orderDetails += '\nTotal Amount: $' + totalAmount;
+      alert(orderDetails);
+
+      openAddressForm(orderDetails, totalAmount);
+    }
+  }
+
+  function openAddressForm(orderDetails, totalAmount) {
+    const newTab = window.open('file:///D:/LAZAR/PROGRAMMING/WEB%20DEVELOPMENT/HOTEL%20MNGMNT%20WEBSITE/html/nani%20hotel%20address%20form.html', '_blank');
+    newTab.onload = function() {
+      newTab.document.getElementById('orderDetails').innerText = orderDetails;
+      newTab.document.getElementById('totalAmount').innerText = '$' + totalAmount;
+    }
+  }
+
+  function searchProducts() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const tableRows = document.querySelectorAll('.menu-table tbody tr');
+
+    tableRows.forEach(row => {
+      const productName = row.cells[1].innerText.toLowerCase();
+      if (productName.includes(searchInput)) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock %}
+
+{% block head %}
+  <style>
+    header {
+      background-color: #ffc107;
+      padding: 10px;
+      text-align: center;
+      font-size: 25px;
+      color: black;
+    }
+    .contact-container {
+      background-color: #fff;
+      padding: 30px;
+      margin: 40px auto;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .contact-container p {
+      margin: 15px 0;
+      font-size: 1.1rem;
+    }
+    .contact-container a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .contact-container a:hover {
+      text-decoration: underline;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <header>
+    <h1>Contact Us</h1>
+  </header>
+  <div class="contact-container">
+    <p>For inquiries, please contact us:</p>
+    <p>📧 <a href="mailto:lazarmura7@gmail.com">lazarmura7@gmail.com</a></p>
+    <p>📞 <a href="tel:+7287970564">7287970564</a></p>
+  </div>
+{% endblock %}

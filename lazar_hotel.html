@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Lazar Hotel Menu</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: #fff; }
+  th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+  th { background-color: #eee; }
+  img { width: 80px; height: 60px; object-fit: cover; }
+  button { padding: 6px 10px; margin: 0 2px; cursor: pointer; }
+  footer { text-align: center; }
+  footer button {
+    background-color: #007bff; color: white; border: none; padding: 12px 20px;
+    font-size: 16px; border-radius: 5px; cursor: pointer;
+  }
+  footer button:hover { background-color: #0056b3; }
+</style>
+</head>
+<body>
+
+<h2>Lazar Hotel Menu</h2>
+
+<table class="menu-table">
+  <thead>
+    <tr>
+      <th>S.NO</th>
+      <th>PRODUCT NAME</th>
+      <th>IMAGE</th>
+      <th>PRODUCT PRICE ($)</th>
+      <th>SELECT THE PRODUCT</th>
+      <th>QUANTITY</th>
+    </tr>
+  </thead>
+  <tbody id="menuTableBody">
+    <tr>
+      <td>1</td>
+      <td>Chicken Biriyani</td>
+      <td><img src="chicken1.jpeg" alt="Chicken Biriyani"></td>
+      <td>180</td>
+      <td>
+        <button type="button" onclick="selectProduct('Chicken Biriyani', 180)">+</button>
+        <button type="button" onclick="cancelProduct('Chicken Biriyani')">-</button>
+      </td>
+      <td id="qty-Chicken Biriyani">0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Egg Biriyani</td>
+      <td><img src="egg1.jpeg" alt="Egg Biriyani"></td>
+      <td>190</td>
+      <td>
+        <button type="button" onclick="selectProduct('Egg Biriyani', 190)">+</button>
+        <button type="button" onclick="cancelProduct('Egg Biriyani')">-</button>
+      </td>
+      <td id="qty-Egg Biriyani">0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Mutton Biriyani</td>
+      <td><img src="mutton1.jpeg" alt="Mutton Biriyani"></td>
+      <td>260</td>
+      <td>
+        <button type="button" onclick="selectProduct('Mutton Biriyani', 260)">+</button>
+        <button type="button" onclick="cancelProduct('Mutton Biriyani')">-</button>
+      </td>
+      <td id="qty-Mutton Biriyani">0</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Veg Meals</td>
+      <td><img src="meals1.jpeg" alt="Veg Meals"></td>
+      <td>90</td>
+      <td>
+        <button type="button" onclick="selectProduct('Veg Meals', 90)">+</button>
+        <button type="button" onclick="cancelProduct('Veg Meals')">-</button>
+      </td>
+      <td id="qty-Veg Meals">0</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Curd Rice</td>
+      <td><img src="Curd rice1.jpeg" alt="Curd Rice"></td>
+      <td>50</td>
+      <td>
+        <button type="button" onclick="selectProduct('Curd Rice', 50)">+</button>
+        <button type="button" onclick="cancelProduct('Curd Rice')">-</button>
+      </td>
+      <td id="qty-Curd Rice">0</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Fish Biriyani</td>
+      <td><img src="Fish1.jpeg" alt="Fish Biriyani"></td>
+      <td>150</td>
+      <td>
+        <button type="button" onclick="selectProduct('Fish Biriyani', 150)">+</button>
+        <button type="button" onclick="cancelProduct('Fish Biriyani')">-</button>
+      </td>
+      <td id="qty-Fish Biriyani">0</td>
+    </tr>
+  </tbody>
+</table>
+
+<footer>
+  <button type="button" onclick="orderSelectedProducts()">ORDER THE SELECTED PRODUCTS</button>
+</footer>
+
+<script>
+  // Object to store selected products and their quantities
+  const cart = {};
+
+  function selectProduct(name, price) {
+    if (!cart[name]) {
+      cart[name] = { quantity: 1, price: price };
+    } else {
+      cart[name].quantity++;
+    }
+    updateQuantityDisplay(name);
+  }
+
+  function cancelProduct(name) {
+    if (cart[name]) {
+      cart[name].quantity--;
+      if (cart[name].quantity <= 0) {
+        delete cart[name];
+      }
+    }
+    updateQuantityDisplay(name);
+  }
+
+  function updateQuantityDisplay(name) {
+    const qtyElem = document.getElementById(`qty-${name}`);
+    if (cart[name]) {
+      qtyElem.textContent = cart[name].quantity;
+    } else {
+      qtyElem.textContent = 0;
+    }
+  }
+
+  function orderSelectedProducts() {
+    if (Object.keys(cart).length === 0) {
+      alert('Please select at least one product to order.');
+      return;
+    }
+
+    let total = 0;
+
+    // Create form
+    const form = document.createElement('form');
+    form.method = 'GET'; // <--- use GET instead of POST here
+    form.action = '/address_form';
+
+
+    // Add one hidden input per selected item (same name "items" for all)
+    for (const [name, data] of Object.entries(cart)) {
+      const itemInput = document.createElement('input');
+      itemInput.type = 'hidden';
+      itemInput.name = 'items';
+      itemInput.value = `${name} x ${data.quantity}`;
+      form.appendChild(itemInput);
+
+      total += data.price * data.quantity;
+    }
+
+    // Add total hidden input
+    const totalInput = document.createElement('input');
+    totalInput.type = 'hidden';
+    totalInput.name = 'total';
+    totalInput.value = total.toFixed(2);
+    form.appendChild(totalInput);
+
+    document.body.appendChild(form);
+    form.submit();
+  }
+</script>
+
+</body>
+</html>

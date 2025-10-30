@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BHASKAR HOTEL Food Order</title>
+  <style>
+    header {
+      background-color: yellow;
+      padding: 10px;
+      text-align: center;
+      font-size: 25px;
+      color: black;
+    }
+
+    footer {
+      background-color: silver;
+      padding: 10px;
+      text-align: center;
+      color: black;
+    }
+
+    .left {
+      background-color: pink;
+      padding: 20px;
+      float: left;
+      width: 20%;
+    }
+
+    table {
+      background-color: tan;
+      border: 1px solid black;
+      border-collapse: collapse;
+      width: 80%;
+      margin: 20px auto;
+    }
+
+    th, td {
+      padding: 20px;
+      text-align: center;
+      border: 1px solid black;
+    }
+
+    button {
+      text-align: center;
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ff4500;
+      color: white;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+    }
+
+    .search-container input {
+      padding: 10px;
+      font-size: 17px;
+      border: 1px solid black;
+    }
+
+    .search-container button {
+      padding: 10px;
+      font-size: 17px;
+      background: #ddd;
+      border: none;
+      cursor: pointer;
+    }
+
+    .search-container button:hover {
+      background: #ccc;
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      overflow: hidden;
+      background-color: #333;
+      text-align: center;
+    }
+
+    nav ul li {
+      display: inline;
+      padding: 14px 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+    }
+
+    nav ul li a:hover {
+      background-color: #111;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <img src="bhaskar.jpg" alt="Hotel" width="500" height="333">
+  <h1>BHASKAR HOTEL</h1>
+  <div class="search-container">
+    <input type="text" placeholder="search">
+    <button type="button" onclick="searchProducts()">Search</button>
+  </div>
+</header>
+
+<nav class="navbar">
+  <ul>
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="{{ url_for('contact_us') }}">Contact</a></li>
+  </ul>
+</nav>
+
+
+<h2 style="text-align: center;">MENU TABLE</h2>
+
+<table>
+  <tr>
+    <th>S.NO</th>
+    <th>PRODUCT NAME</th>
+    <th>IMAGES</th>
+    <th>PRODUCT PRICE</th>
+    <th>SELECT THE PRODUCT</th>
+  </tr>
+  <tr>
+    <th>1</th>
+    <td>Chicken Biriyani</td>
+    <td><img src="chicken3.jpeg" alt="Chicken Biriyani" width="400" height="250"></td>
+    <td>100</td>
+    <td>
+      <button type="button" onclick="selectProduct('Chicken Biriyani', 100)">+</button>
+      <button type="button" onclick="cancelProduct('Chicken Biriyani')">-</button>
+    </td>
+  </tr>
+  <tr>
+    <th>2</th>
+    <td>Egg Biriyani</td>
+    <td><img src="egg3.jpeg" alt="Egg Biriyani" width="400" height="250"></td>
+    <td>90</td>
+    <td>
+      <button type="button" onclick="selectProduct('Egg Biriyani', 90)">+</button>
+      <button type="button" onclick="cancelProduct('Egg Biriyani')">-</button>
+    </td>
+  </tr>
+  <tr>
+    <th>3</th>
+    <td>Mutton Biriyani</td>
+    <td><img src="mutton3.jpeg" alt="Mutton Biriyani" width="400" height="250"></td>
+    <td>160</td>
+    <td>
+      <button type="button" onclick="selectProduct('Mutton Biriyani', 160)">+</button>
+      <button type="button" onclick="cancelProduct('Mutton Biriyani')">-</button>
+    </td>
+  </tr>
+  <tr>
+    <th>4</th>
+    <td>Veg Meals</td>
+    <td><img src="meals3.jpeg" alt="Veg Meals" width="400" height="250"></td>
+    <td>70</td>
+    <td>
+      <button type="button" onclick="selectProduct('Veg Meals', 70)">+</button>
+      <button type="button" onclick="cancelProduct('Veg Meals')">-</button>
+    </td>
+  </tr>
+  <tr>
+    <th>5</th>
+    <td>France Biryani</td>
+    <td><img src="france1.jpeg" alt="France Biryani" width="400" height="250"></td>
+    <td>80</td>
+    <td>
+      <button type="button" onclick="selectProduct('France Biryani', 80)">+</button>
+      <button type="button" onclick="cancelProduct('France Biryani')">-</button>
+    </td>
+  </tr>
+  <tr>
+    <th>6</th>
+    <td>Fish Biryani</td>
+    <td><img src="fish1.jpeg" alt="Fish Biryani" width="400" height="250"></td>
+    <td>60</td>
+    <td>
+      <button type="button" onclick="selectProduct('Fish Biryani', 60)">+</button>
+      <button type="button" onclick="cancelProduct('Fish Biryani')">-</button>
+    </td>
+  </tr>
+  <tr>
+    <th>7</th>
+    <td>Fish Fry</td>
+    <td><img src="fish2.jpeg" alt="Fish Fry" width="400" height="250"></td>
+    <td>100</td>
+    <td>
+      <button type="button" onclick="selectProduct('Fish Fry', 100)">+</button>
+      <button type="button" onclick="cancelProduct('Fish Fry')">-</button>
+    </td>
+  </tr>
+  <tr>
+    <th>8</th>
+    <td>Chicken Fry</td>
+    <td><img src="chicken fry.jpeg" alt="Chicken Fry" width="400" height="250"></td>
+    <td>100</td>
+    <td>
+      <button type="button" onclick="selectProduct('Chicken Fry', 100)">+</button>
+      <button type="button" onclick="cancelProduct('Chicken Fry')">-</button>
+    </td>
+  </tr>
+</table>
+
+<footer>
+  <button type="button" onclick="orderSelectedProducts()">ORDER THE SELECTED PRODUCTS</button>
+</footer>
+
+
+<script>
+  let selectedProducts = [];
+
+  function selectProduct(productName, productPrice) {
+    const productIndex = selectedProducts.findIndex(product => product.name === productName);
+    if (productIndex > -1) {
+      selectedProducts[productIndex].quantity += 1;
+    } else {
+      selectedProducts.push({ name: productName, price: productPrice, quantity: 1 });
+    }
+    alert(productName + ' has been added to your order.');
+  }
+
+  function cancelProduct(productName) {
+    const productIndex = selectedProducts.findIndex(product => product.name === productName);
+    if (productIndex > -1) {
+      selectedProducts[productIndex].quantity -= 1;
+      if (selectedProducts[productIndex].quantity === 0) {
+        selectedProducts.splice(productIndex, 1);
+      }
+      alert(productName + ' has been removed from your order.');
+    } else {
+      alert(productName + ' is not in your order.');
+    }
+  }
+
+  function orderSelectedProducts() {
+    if (selectedProducts.length === 0) {
+      alert('No products selected.');
+    } else {
+      let orderDetails = 'You have ordered:\n';
+      let totalAmount = 0;
+
+      selectedProducts.forEach(product => {
+        orderDetails += product.name + ' - $' + product.price + ' x ' + product.quantity + '\n';
+        totalAmount += product.price * product.quantity;
+      });
+
+      orderDetails += '\nTotal Amount: $' + totalAmount;
+      alert(orderDetails);
+
+      openAddressForm(orderDetails, totalAmount);
+    }
+  }
+
+  function openAddressForm(orderDetails, totalAmount) {
+    const newTab = window.open('file:///D:/LAZAR/PROGRAMMING/WEB%20DEVELOPMENT/HOTEL%20MNGMNT%20WEBSITE/html/bhaskar%20hotel%20address%20form.html');
+    newTab.onload = function() {
+      newTab.document.getElementById('orderDetails').innerText = orderDetails;
+      newTab.document.getElementById('totalAmount').innerText = totalAmount;
+    }
+  }
+
+  function searchProducts() {
+    const query = document.querySelector('.search-container input').value.toLowerCase();
+    const rows = document.querySelectorAll('table tr');
+    rows.forEach(row => {
+      if (row.rowIndex === 0) return; // skip header row
+      const cells = row.getElementsByTagName('td');
+      const productName = cells[0].innerText.toLowerCase();
+      row.style.display = productName.includes(query) ? '' : 'none';
+    });
+  }
+</script>
+</body>
+</html>

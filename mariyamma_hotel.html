@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MARIYAMMA HOTEL Food Order</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: yellow;
+      padding: 10px;
+      text-align: center;
+      font-size: 25px;
+      color: black;
+    }
+
+    header img {
+      width: 100%;
+      height: auto;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    footer {
+      background-color: silver;
+      padding: 10px;
+      text-align: center;
+      color: black;
+    }
+
+    table {
+      background-color: tan;
+      border: 1px solid black;
+      border-collapse: collapse;
+      width: 80%;
+      margin: 20px auto;
+    }
+
+    th, td {
+      padding: 20px;
+      text-align: center;
+      border: 1px solid #000;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+      border: none;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #ff4500;
+      color: white;
+    }
+
+    .search-container {
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-container input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      width: 300px;
+    }
+
+    .search-container button {
+      padding: 10px;
+      font-size: 16px;
+      background-color: #ff4500;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .search-container button:hover {
+      background-color: #e5005a;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <img src="mariyamma.jpg" alt="Hotel">
+  <h1>MARIYAMMA HOTEL</h1>
+  <div class="search-container">
+    <input type="text" placeholder="Search" id="search-input">
+    <button type="button" onclick="searchProducts()">Search</button>
+  </div>
+</header>
+<nav class="navbar">
+  <ul>
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="{{ url_for('contact_us') }}">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h2 style="text-align: center;">MENU TABLE</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>S.NO</th>
+        <th>PRODUCT NAME</th>
+        <th>IMAGES</th>
+        <th>PRODUCT PRICE</th>
+        <th>SELECT THE PRODUCT</th>
+      </tr>
+    </thead>
+    <tbody id="menu-table-body">
+      <tr>
+        <td>1</td>
+        <td>Veg Biriyani</td>
+        <td><img src="Veg Biriyani.jpeg" alt="Veg Biriyani" width="400" height="250"></td>
+        <td>100</td>
+        <td>
+          <button type="button" onclick="selectProduct('Veg Biriyani', 100)">+</button>
+          <button type="button" onclick="cancelProduct('Veg Biriyani')">-</button>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Egg Biriyani</td>
+        <td><img src="egg2.jpeg" alt="Egg Biriyani" width="400" height="250"></td>
+        <td>90</td>
+        <td>
+          <button type="button" onclick="selectProduct('Egg Biriyani', 90)">+</button>
+          <button type="button" onclick="cancelProduct('Egg Biriyani')">-</button>
+        </td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Mutton Biriyani</td>
+        <td><img src="mutton2.jpeg" alt="Mutton Biriyani" width="400" height="250"></td>
+        <td>160</td>
+        <td>
+          <button type="button" onclick="selectProduct('Mutton Biriyani', 160)">+</button>
+          <button type="button" onclick="cancelProduct('Mutton Biriyani')">-</button>
+        </td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>France Biryani</td>
+        <td><img src="france2.jpeg" alt="France Biryani" width="400" height="250"></td>
+        <td>260</td>
+        <td>
+          <button type="button" onclick="selectProduct('France Biryani', 260)">+</button>
+          <button type="button" onclick="cancelProduct('France Biryani')">-</button>
+        </td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Veg Meals</td>
+        <td><img src="meals2.jpeg" alt="Veg Meals" width="400" height="250"></td>
+        <td>70</td>
+        <td>
+          <button type="button" onclick="selectProduct('Veg Meals', 70)">+</button>
+          <button type="button" onclick="cancelProduct('Veg Meals')">-</button>
+        </td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Curd Rice</td>
+        <td><img src="curd rice.jpeg" alt="Curd Rice" width="400" height="250"></td>
+        <td>80</td>
+        <td>
+          <button type="button" onclick="selectProduct('Curd Rice', 80)">+</button>
+          <button type="button" onclick="cancelProduct('Curd Rice')">-</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+
+<footer>
+  <button type="button" onclick="orderSelectedProducts()">ORDER THE SELECTED PRODUCTS</button>
+</footer>
+
+<script>
+  let selectedProducts = [];
+
+  function selectProduct(productName, productPrice) {
+    selectedProducts.push({ name: productName, price: productPrice });
+    alert(productName + ' has been added to your order.');
+  }
+
+  function cancelProduct(productName) {
+    selectedProducts = selectedProducts.filter(product => product.name !== productName);
+    alert(productName + ' has been removed from your order.');
+  }
+
+  function orderSelectedProducts() {
+    if (selectedProducts.length === 0) {
+      alert('No products selected.');
+    } else {
+      let orderDetails = 'You have ordered:\n';
+      let totalAmount = 0;
+
+      selectedProducts.forEach(product => {
+        orderDetails += product.name + ' - $' + product.price + '\n';
+        totalAmount += product.price;
+      });
+
+      orderDetails += '\nTotal Amount: $' + totalAmount;
+      alert(orderDetails);
+
+      openAddressForm(orderDetails, totalAmount);
+    }
+  }
+
+  function openAddressForm(orderDetails, totalAmount) {
+    const newTab = window.open('file:///D:/LAZAR/PROGRAMMING/WEB%20DEVELOPMENT/HOTEL%20MNGMNT%20WEBSITE/html/mariyamma%20hotel%20address%20form.html');
+    newTab.onload = function() {
+      newTab.document.getElementById('orderDetails').innerText = orderDetails;
+      newTab.document.getElementById('totalAmount').innerText = totalAmount;
+    }
+  }
+
+  function searchProducts() {
+    const searchInput = document.getElementById('search-input').value.toLowerCase();
+    const tableRows = document.querySelectorAll('#menu-table-body tr');
+
+    tableRows.forEach(row => {
+      const productName = row.cells[1].innerText.toLowerCase();
+      if (productName.includes(searchInput)) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<h1>Your Cart</h1>
+<ul>
+  {% for item in cart %}
+    <li>{{ item.name }} - ₹{{ item.price }}</li>
+  {% endfor %}
+</ul>
+
+<h3>Total: ₹{{ total }}</h3>
+
+<a href="{{ url_for('address_form') }}">Proceed to Checkout</a>

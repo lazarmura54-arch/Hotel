@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Order Confirmation{% endblock %}
+
+{% block head %}
+<style>
+    .confirmation-box {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 40px;
+        max-width: 600px;
+        margin: 40px auto;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+    h2 {
+        color: #28a745;
+        margin-bottom: 20px;
+    }
+    p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+    .order-details {
+        margin-top: 30px;
+        text-align: left;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+    }
+    .order-details strong {
+        display: inline-block;
+        width: 120px;
+        color: #555;
+    }
+    .items-list {
+        margin-top: 10px;
+        padding-left: 125px;
+        line-height: 1.7;
+    }
+    .home-link {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 12px 25px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.2s;
+    }
+    .home-link:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="confirmation-box">
+    <h2>Thank you, {{ name }}!</h2>
+    <p>Your order has been placed successfully.</p>
+
+    <div class="order-details">
+        <p><strong>Phone:</strong> {{ phone }}</p>
+        <p><strong>Address:</strong> {{ address }}</p>
+        <p><strong>Total:</strong> ₹{{ total }}</p>
+        <p><strong>Items:</strong></p>
+        <div class="items-list">
+           <!-- Correctly replaces newlines from the textarea with <br> tags -->
+           {{ items.replace('\n', '<br>') | safe }}
+        </div>
+    </div>
+    
+    <a href="{{ url_for('home') }}" class="home-link">Back to Home</a>
+</div>
+{% endblock %}

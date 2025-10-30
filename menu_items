@@ -1,0 +1,35 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy # type: ignore
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://hotel_admin:postgres@localhost/hotel_db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class MenuItem(db.Model):
+    __tablename__ = 'menu_items'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    image = db.Column(db.String(100))
+    hotel = db.Column(db.String(100), nullable=False)
+
+# Create tables
+with app.app_context():
+    db.create_all()
+
+    # Insert sample data only if table is empty
+    if MenuItem.query.count() == 0:
+        sample_items = [
+            MenuItem(name='Chicken Curry', price=150.0, image='chicken.jpg', hotel='lazar'),
+            MenuItem(name='Egg Curry', price=120.0, image='egg.jpg', hotel='lazar'),
+            MenuItem(name='Mutton Fry', price=200.0, image='mutton.jpg', hotel='lazar'),
+            MenuItem(name='Veg Meals', price=90.0, image='meals1.jpg', hotel='lazar'),
+            MenuItem(name='Curd Rice', price=50.0, image='curd1.jpg', hotel='lazar'),
+            MenuItem(name='Fish Biriyani', price=150.0, image='fish1.jpg', hotel='lazar'),
+        ]
+        db.session.add_all(sample_items)
+        db.session.commit()
+
+    print("✅ Table created and data inserted.")
